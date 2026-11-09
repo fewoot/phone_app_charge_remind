@@ -124,8 +124,7 @@
 ### 构建
 
 ```bash
-# 换成你自己的仓库地址
-git clone https://github.com/your-name/charge-reminder.git
+git clone https://github.com/fewoot/phone_app_charge_remind.git
 ```
 
 1. Android Studio → `File → Open`，选择 **`android-app/`** 目录（不是仓库根目录）
@@ -134,6 +133,9 @@ git clone https://github.com/your-name/charge-reminder.git
 
 > 仓库没有附带 `gradle-wrapper.jar` / `gradlew`，直接用 Android Studio 的 Gradle 集成即可；
 > 需要命令行构建时的做法见 [docs/build.md](docs/build.md#没有-gradlew-怎么办)。
+
+> 只想要安装包：发版后的 APK 放在仓库的 **Releases** 页面。
+> 签名、打包、发 Release 的完整流程见 [发布说明](docs/release.md)。
 
 ### 第一次运行
 
@@ -196,6 +198,7 @@ git clone https://github.com/your-name/charge-reminder.git
 | [docs/requirements.md](docs/requirements.md) | 需求清单定稿：竞品试装结论、设备与周期、首页 / 提醒 / 外观细则、验收标准 |
 | [docs/retrospective.md](docs/retrospective.md) | 开发复盘：五个阶段、10 个坑的完整记录、新 Android 工程启动清单 |
 | [docs/build.md](docs/build.md) | 构建与环境：Gradle 离线方案、compileSdk 排错、国产 ROM 适配、2 分钟自测 |
+| [docs/release.md](docs/release.md) | 发版与分发：创建签名密钥、构建 release APK、发 GitHub Release、常见问题 |
 | [prototype/README.md](prototype/README.md) | HTML 原型说明：可以点哪些东西、哪些是「假的」 |
 
 ## 隐私

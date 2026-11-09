@@ -24,6 +24,12 @@ local.properties
 *.iml
 .navigation/
 
+# ---------- 签名文件（绝对不能提交）----------
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
 # ---------- Gradle 离线安装包（约 150 MB，GitHub 单文件上限 100 MB）----------
 # 下载方式见 docs/build.md；verify-gradle.ps1 可校验完整性
 android-app/gradle-*.zip
