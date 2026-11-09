@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>充电提醒 · 六屏预览</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #0B0E12; }
+  .grid {
+    display: grid;
+    grid-template-columns: 430px 430px 430px;
+    grid-template-rows: 932px 932px;
+    width: 1290px;
+    height: 1864px;
+    overflow: hidden;
+  }
+  iframe { display: block; width: 430px; height: 932px; border: 0; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <iframe src="index.html#home" title="首页"></iframe>
+    <iframe src="index.html#detail" title="详情"></iframe>
+    <iframe src="index.html#settings" title="设置"></iframe>
+    <iframe src="index.html#editor" title="编辑"></iframe>
+    <iframe src="index.html#charge" title="记录充电"></iframe>
+    <iframe src="index.html#dark" title="深色"></iframe>
+  </div>
+</body>
+</html>

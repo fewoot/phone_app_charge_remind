@@ -1,0 +1,45 @@
+# ============================================================
+#  充电提醒 · .gitignore
+#  原则：构建产物、本机配置、超大离线包一律不入库
+# ============================================================
+
+# ---------- Android / Gradle 构建产物 ----------
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.hprof
+build/
+.gradle/
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+release/
+
+# ---------- 本机相关配置（换台电脑就要重写，不要提交）----------
+local.properties
+.idea/
+*.iml
+.navigation/
+
+# ---------- Gradle 离线安装包（约 150 MB，GitHub 单文件上限 100 MB）----------
+# 下载方式见 docs/build.md；verify-gradle.ps1 可校验完整性
+android-app/gradle-*.zip
+android-app/gradle-*.zip.*
+*.part
+
+# ---------- 日志 / 临时文件 ----------
+*.log
+*.tmp
+tmp/
+.tmp*/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# ---------- 第三方参考克隆（不属于本项目，见 docs/research.md）----------
+kelivo-master/
