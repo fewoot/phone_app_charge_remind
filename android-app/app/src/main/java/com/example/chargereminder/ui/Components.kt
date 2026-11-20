@@ -72,7 +72,7 @@ fun AppBackground(
     val context = LocalContext.current
     val bitmap = remember(settings.bgType, settings.bgImage) {
         if (settings.bgType == "image") {
-            Images.load(context, settings.bgImage, 1600)?.asImageBitmap()
+            Images.load(context, settings.bgImage, 1200)?.asImageBitmap()
         } else {
             null
         }

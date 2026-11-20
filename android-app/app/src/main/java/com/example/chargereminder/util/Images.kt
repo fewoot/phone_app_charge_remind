@@ -15,6 +15,9 @@ import kotlin.math.min
  */
 object Images {
 
+    /** 图标和背景都用 80 质量，肉眼基本无损，体积小很多 */
+    private const val JPEG_QUALITY = 80
+
     private fun dir(context: Context): File =
         File(context.filesDir, "photos").apply { mkdirs() }
 
@@ -24,13 +27,25 @@ object Images {
     }
 
     fun saveBitmap(context: Context, source: Bitmap, maxSide: Int, square: Boolean): String? {
-        val out = if (square) centerSquare(source) else scaleToMax(source, maxSide)
+        val cropped = if (square) centerSquare(source) else source
+        // 裁剪之后再压到 maxSide，避免正方形图标保存成 640×640
+        val out = scaleToMax(cropped, maxSide)
         val name = "img_${System.currentTimeMillis()}.jpg"
         val file = File(dir(context), name)
         return runCatching {
-            FileOutputStream(file).use { out.compress(Bitmap.CompressFormat.JPEG, 88, it) }
+            FileOutputStream(file).use { out.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, it) }
             name
         }.getOrNull()
+    }
+
+    /** 删掉没有被任何设备 / 背景引用的孤儿图片（换图标、取消编辑留下的） */
+    fun cleanup(context: Context, keep: Set<String>) {
+        val files = dir(context).listFiles() ?: return
+        files.forEach { file ->
+            if (file.isFile && file.name !in keep) {
+                runCatching { file.delete() }
+            }
+        }
     }
 
     fun load(context: Context, name: String?, maxSide: Int): Bitmap? {

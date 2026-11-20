@@ -48,6 +48,7 @@ fun DetailScreen(
     onBack: () -> Unit,
     onEdit: () -> Unit,
     onCharge: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     onDelete: () -> Unit
 ) {
     val status = device.status()
@@ -115,6 +116,33 @@ fun DetailScreen(
                         fontSize = 12.5.sp,
                         color = colors.text2
                     )
+                }
+            }
+
+            val showEnable = !(device.type == TYPE_ONETIME && device.completed)
+            if (showEnable) {
+                Spacer(Modifier.height(14.dp))
+                SectionCard(colors) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                text = "启用提醒",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = colors.text
+                            )
+                            Spacer(Modifier.height(2.dp))
+                            Text(
+                                text = if (device.enabled) "到日子会提醒你" else "已停用，不再排闹钟",
+                                fontSize = 11.5.sp,
+                                color = colors.text3
+                            )
+                        }
+                        AppSwitch(device.enabled, onToggle)
+                    }
                 }
             }
 

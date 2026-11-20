@@ -60,7 +60,6 @@ fun HomeScreen(
     onOpenSettings: () -> Unit,
     onAdd: () -> Unit,
     onOpenDetail: (String) -> Unit,
-    onToggle: (String, Boolean) -> Unit,
     onCharge: (String) -> Unit
 ) {
     val today = LocalDate.now()
@@ -108,11 +107,11 @@ fun HomeScreen(
                 EmptyState(colors, onAdd)
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                     contentPadding = PaddingValues(bottom = 120.dp)
                 ) {
                     items(devices, key = { it.id }) { device ->
-                        DeviceCard(device, colors, onOpenDetail, onToggle, onCharge)
+                        DeviceCard(device, colors, onOpenDetail, onCharge)
                     }
                 }
             }
@@ -177,7 +176,6 @@ private fun DeviceCard(
     device: Device,
     colors: AppColors,
     onOpen: (String) -> Unit,
-    onToggle: (String, Boolean) -> Unit,
     onCharge: (String) -> Unit
 ) {
     val status = device.status()
@@ -189,81 +187,64 @@ private fun DeviceCard(
     }
     val shape = RoundedCornerShape(20.dp)
 
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
             .background(colors.card)
             .border(1.dp, colors.cardBorder, shape)
             .clickable { onOpen(device.id) }
-            .padding(12.dp)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            ProgressRing(
-                diameter = 58.dp,
-                progress = device.progress(),
-                color = ringColor,
-                trackColor = colors.track,
-                strokeWidth = 4.dp
-            ) {
-                DeviceIcon(device, 44.dp, colors)
-            }
-            Spacer(Modifier.width(10.dp))
-            Column(Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = device.name,
-                        fontSize = 15.5.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = colors.text,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f, fill = false)
-                    )
-                    Spacer(Modifier.width(6.dp))
-                    StatusChip(status, colors)
-                }
-                Spacer(Modifier.height(3.dp))
-                Text(
-                    text = metaLine(device),
-                    fontSize = 11.5.sp,
-                    color = colors.text2,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(Modifier.height(1.dp))
-                Text(
-                    text = dueLine(device),
-                    fontSize = 11.sp,
-                    color = colors.text3,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            ChevronRight(colors)
+        ProgressRing(
+            diameter = 54.dp,
+            progress = device.progress(),
+            color = ringColor,
+            trackColor = colors.track,
+            strokeWidth = 4.dp
+        ) {
+            DeviceIcon(device, 41.dp, colors)
         }
-
-        Spacer(Modifier.height(9.dp))
-        DividerLine(colors)
-        Spacer(Modifier.height(7.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            AppSwitch(device.enabled, { onToggle(device.id, it) })
-            Spacer(Modifier.width(6.dp))
+        Spacer(Modifier.width(10.dp))
+        Column(Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = device.name,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = colors.text,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
+                Spacer(Modifier.width(6.dp))
+                StatusChip(status, colors)
+            }
+            Spacer(Modifier.height(2.dp))
             Text(
-                text = if (device.enabled) "已启用" else "已停用",
+                text = metaLine(device),
                 fontSize = 11.5.sp,
-                color = colors.text2
+                color = colors.text2,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
-            Spacer(Modifier.weight(1f))
-            PillButton(
-                text = if (device.type == TYPE_ONETIME) "完成" else "已充电",
-                onClick = { onCharge(device.id) },
-                background = colors.accent,
-                foreground = colors.onAccent,
-                height = 30.dp
+            Text(
+                text = dueLine(device),
+                fontSize = 11.sp,
+                color = colors.text3,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
+        Spacer(Modifier.width(8.dp))
+        PillButton(
+            text = if (device.type == TYPE_ONETIME) "完成" else "已充电",
+            onClick = { onCharge(device.id) },
+            background = colors.accent,
+            foreground = colors.onAccent,
+            height = 34.dp
+        )
     }
 }
 

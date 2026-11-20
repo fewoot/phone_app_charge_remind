@@ -89,13 +89,13 @@ fun EditorScreen(
 
     val gallery = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
-            val name = Images.saveUri(context, uri, 320, true)
+            val name = Images.saveUri(context, uri, 256, true)
             if (name != null) draft = draft.copy(photo = name)
         }
     }
     val camera = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
         if (bitmap != null) {
-            val name = Images.saveBitmap(context, bitmap, 320, true)
+            val name = Images.saveBitmap(context, bitmap, 256, true)
             if (name != null) draft = draft.copy(photo = name)
         }
     }
@@ -145,6 +145,49 @@ fun EditorScreen(
                         unit = UNIT_DAY
                     )
                     intervalText = interval.toString()
+                }
+
+                Spacer(Modifier.height(18.dp))
+                FieldLabel("图标", colors)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconPreview(draft, colors)
+                    Spacer(Modifier.width(14.dp))
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        PillButton(
+                            text = "📷 拍照",
+                            onClick = { camera.launch(null) },
+                            background = colors.accent.copy(alpha = 0.13f),
+                            foreground = colors.accent,
+                            height = 34.dp
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            PillButton(
+                                text = "相册",
+                                onClick = {
+                                    gallery.launch(
+                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                    )
+                                },
+                                background = colors.accent.copy(alpha = 0.13f),
+                                foreground = colors.accent,
+                                height = 34.dp
+                            )
+                            if (draft.photo != null) {
+                                PillButton(
+                                    text = "清除",
+                                    onClick = { draft = draft.copy(photo = null) },
+                                    background = colors.chip,
+                                    foreground = colors.text2,
+                                    height = 34.dp
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+                EmojiGrid(selected = draft.emoji, colors = colors) { emoji ->
+                    draft = draft.copy(emoji = emoji, photo = null)
                 }
 
                 Spacer(Modifier.height(18.dp))
@@ -275,49 +318,6 @@ fun EditorScreen(
                             colors = colors
                         )
                     }
-                }
-
-                Spacer(Modifier.height(20.dp))
-                FieldLabel("图标", colors)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconPreview(draft, colors)
-                    Spacer(Modifier.width(14.dp))
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        PillButton(
-                            text = "📷 拍照",
-                            onClick = { camera.launch(null) },
-                            background = colors.accent.copy(alpha = 0.13f),
-                            foreground = colors.accent,
-                            height = 34.dp
-                        )
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            PillButton(
-                                text = "相册",
-                                onClick = {
-                                    gallery.launch(
-                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                    )
-                                },
-                                background = colors.accent.copy(alpha = 0.13f),
-                                foreground = colors.accent,
-                                height = 34.dp
-                            )
-                            if (draft.photo != null) {
-                                PillButton(
-                                    text = "清除",
-                                    onClick = { draft = draft.copy(photo = null) },
-                                    background = colors.chip,
-                                    foreground = colors.text2,
-                                    height = 34.dp
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(12.dp))
-                EmojiGrid(selected = draft.emoji, colors = colors) { emoji ->
-                    draft = draft.copy(emoji = emoji, photo = null)
                 }
 
                 Spacer(Modifier.height(20.dp))

@@ -101,7 +101,7 @@ fun SettingsScreen(
 
     val bgPicker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
-            val name = Images.saveUri(context, uri, 1600, false)
+            val name = Images.saveUri(context, uri, 1440, false)
             if (name != null) {
                 onSettings { it.copy(bgType = "image", bgImage = name) }
             }

@@ -99,7 +99,6 @@ fun ChargeReminderApp() {
                         onOpenSettings = { screen = Screen.Settings },
                         onAdd = { screen = Screen.Editor(null) },
                         onOpenDetail = { id -> screen = Screen.Detail(id) },
-                        onToggle = { id, enabled -> Repo.setEnabled(id, enabled) },
                         onCharge = { id -> chargeFor = id }
                     )
 
@@ -114,6 +113,7 @@ fun ChargeReminderApp() {
                                 onBack = { screen = Screen.Home },
                                 onEdit = { screen = Screen.Editor(device.id) },
                                 onCharge = { chargeFor = device.id },
+                                onToggle = { Repo.setEnabled(device.id, it) },
                                 onDelete = { deleteFor = device.id }
                             )
                         }
